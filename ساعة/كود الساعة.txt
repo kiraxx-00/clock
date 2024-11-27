@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gojo Satoru Clock</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('joju.png.jpg') no-repeat center center; /* تحديث اسم الصورة إلى joju.png */
+            background-size: cover; /* ضبط الصورة لتغطي الخلفية بالكامل */
+            font-family: Arial, sans-serif;
+        }
+
+        .clock {
+            position: relative;
+            width: 600px; /* عرض الساعة */
+            height: 350px; /* ارتفاع الساعة */
+            background: url('joju.png.jpg') no-repeat center center; /* استخدام نفس الصورة داخل الساعة */
+            background-size: cover;
+            border: 3px solid #fff;
+            border-radius: 10px;
+        }
+
+        #date, #time {
+            position: absolute;
+            color: #00ffff;
+            font-weight: bold;
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff;
+            animation: glow 4s infinite alternate; /* تطبيق تأثير التوهج */
+        }
+
+        #date {
+            bottom: 20px; /* وضع التاريخ أسفل القسم الأيسر */
+            left: 20px;   /* ضبط الموقع إلى الجهة اليسرى */
+            font-size: 18px;
+        }
+
+        #time {
+            bottom: 50px; /* وضع الوقت فوق التاريخ قليلاً */
+            left: 20px;   /* ضبط الموقع إلى الجهة اليسرى */
+            font-size: 24px;
+        }
+
+        /* تأثير التوهج الباهت */
+        @keyframes glow {
+            0% {
+                color: #00ffff; /* لون سماوي قوي */
+                text-shadow: 0 0 10px #00ffff, 0 0 30px #00ffff, 0 0 50px #00ffff;
+            }
+            50% {
+                color: #66ffff; /* لون سماوي باهت */
+                text-shadow: 0 0 5px #66ffff, 0 0 15px #66ffff, 0 0 30px #66ffff;
+            }
+            100% {
+                color: #00ffff; /* العودة للسماوي القوي */
+                text-shadow: 0 0 10px #00ffff, 0 0 30px #00ffff, 0 0 50px #00ffff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clock">
+        <p id="date"></p>
+        <p id="time"></p>
+    </div>
+
+    <script>
+        const WEEK = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+        function updateTime() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+
+            // تحويل الساعات إلى نظام 12 ساعة
+            hours = hours % 12;
+            hours = hours ? hours : 12; // إذا كانت الساعة 0 (منتصف الليل)، نعرض 12
+
+            document.getElementById("time").innerText =
+                zeroPadding(hours, 2) + ":" +
+                zeroPadding(minutes, 2) + ":" +
+                zeroPadding(seconds, 2) + " " + ampm;
+
+            document.getElementById("date").innerText =
+                now.getFullYear() + "-" +
+                zeroPadding(now.getMonth() + 1, 2) + "-" +
+                zeroPadding(now.getDate(), 2) + " " +
+                WEEK[now.getDay()];
+        }
+
+        updateTime();
+
+        setInterval(updateTime, 1000);
+
+        function zeroPadding(num, digit) {
+            return String(num).padStart(digit, '0');
+        }
+    </script>
+</body>
+</html>
